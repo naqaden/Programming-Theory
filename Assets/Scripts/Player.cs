@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Input : MonoBehaviour
+public class Player : MonoBehaviour
 {
+	// ENCAPSULATION
 	private Transform playerBody;
 	public float mouseSensitivity = 500f;
 	private float xRotation = 0f;
 
+	// Start is called before the first frame update
 	void Start()
 	{
 		playerBody = transform;
@@ -16,6 +18,7 @@ public class Input : MonoBehaviour
 		Cursor.visible = false;
 	}
 
+	// Update is called once per frame
 	void Update()
 	{
 		if(Application.isFocused)
