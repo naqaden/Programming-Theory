@@ -1,30 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Child : MonoBehaviour
 {
 	// ENCAPSULATION
+	private AudioSource audioHappy;
+	private AudioSource audioSad;
+	public GameObject balloon;
+	public float loseChance = 0.2f;
+
 	private float moveDistance = 10f;
 	private float maxDistanceFromOrigin = 20f;
 	//private float minDistanceFromOrigin = 2f;
-	public float moveSpeed = 2f;
-	public float pauseDuration = 3f;
+	public float moveSpeed = 3f;
+	public float pauseDuration = 2f;
 
 	private Vector3 targetPosition;
 	private float timeSinceLastMove = 0f;
 	private bool isMoving = false;
 	private bool needsBalloon = false;
 
-	public GameObject balloon;
-	public float loseChance = 0.2f;
-
 	// Start is called before the first frame update
 	void Start()
 	{
 		//every child is special
 		moveSpeed += Random.Range(-0.5f, 0.5f);
-		pauseDuration += Random.Range(-2f, 0f);
+		pauseDuration += Random.Range(-1f, 0f);
+
+		AudioSource[] audioSources = GetComponents<AudioSource>();
+		audioHappy = audioSources[0];
+		audioSad = audioSources[1];
 	}
 
 	// Update is called once per frame
@@ -90,6 +97,7 @@ public class Child : MonoBehaviour
 		if(transform.childCount == 0)
 		{
 			Instantiate(balloon, transform.position + Vector3.up * 2, Quaternion.identity, transform);
+			audioHappy.Play();
 		}
 		else
 		{
@@ -105,6 +113,7 @@ public class Child : MonoBehaviour
 			Transform heldBalloon = transform.GetChild(0);
 			Balloon heldBalloonScript = heldBalloon.GetComponent<Balloon>();
 			heldBalloonScript.GetLost();
+			audioSad.Play();
 		}
 		else
 		{
