@@ -38,7 +38,7 @@ public class Balloon : MonoBehaviour
 		{
 			Pop(-featherValue); // ABSTRACTION
 		}
-		if(other.CompareTag("Projectile"))
+		if(other.CompareTag("Projectile") && other.transform.parent == null) //exclude children who wander into player
 		{
 			int penalty = (int)Math.Floor(timeLost/2f);
 			penalty = Math.Max(featherValue - 1, penalty);
