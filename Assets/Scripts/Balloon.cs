@@ -3,21 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Balloon : MonoBehaviour
 {
 	//ENCAPSULATION
+	private Score score;
 	private AudioSource audioSource;
 
-	private int featherValue = 3;
+	private int scoreValue = 3;
 	private float timeLost = 0;
 	private bool isLost = false;
 	private float moveSpeed = 3f;
 
 	// Start is called before the first frame update
 	void Start()
-    {
-		//TODO assign data manager
+	{
+		score = EventSystem.current.GetComponent<Score>();
 		audioSource = GetComponent<AudioSource>();
 	}
 
@@ -36,13 +39,20 @@ public class Balloon : MonoBehaviour
 	{
 		if(other.CompareTag("Sky"))
 		{
-			Pop(-featherValue); // ABSTRACTION
+			Pop(-scoreValue); // ABSTRACTION
 		}
 		if(other.CompareTag("Projectile") && other.transform.parent == null) //exclude children who wander into player
 		{
-			int penalty = (int)Math.Floor(timeLost/2f);
-			penalty = Math.Max(featherValue - 1, penalty);
-			Pop(featherValue - penalty); // ABSTRACTION
+			if(transform.parent == null) //balloon is lost
+			{
+				int penalty = (int)Math.Floor(timeLost/2f);
+				penalty = Math.Min(scoreValue - 1, penalty);
+				Pop(scoreValue - penalty); // ABSTRACTION
+			}
+			else //child was still holding. maximum penalty
+			{
+				Pop(-scoreValue - 1); // ABSTRACTION
+			}
 		}
 	}
 
@@ -53,12 +63,11 @@ public class Balloon : MonoBehaviour
 	}
 
 	//ENCAPSULATION
-	private void Pop(int feathers)
+	private void Pop(int delta)
 	{
+		score.updateScore(delta);
 		audioSource.Play();
 		GetComponent<Renderer>().enabled = false; //make balloon invisible while sound plays
 		Destroy(gameObject, audioSource.clip.length); //delay destruction until sound is complete
-
-		//TODO update data manager feather count
 	}
 }

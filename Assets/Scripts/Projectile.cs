@@ -104,7 +104,6 @@ public class Projectile : MonoBehaviour
 			drawTime = 0;
 			//slowly move back
 		}
-		else Debug.Log("still nocking: " + nockTime + " of 1.0");
 	}
 
 	public void shootProjectile()

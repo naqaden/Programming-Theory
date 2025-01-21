@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using static UnityEngine.UI.Image;
 
 public class Child : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Child : MonoBehaviour
 
 	private float moveDistance = 10f;
 	private float maxDistanceFromOrigin = 20f;
-	//private float minDistanceFromOrigin = 2f;
+	private float minDistanceFromOrigin = 2f;
 	public float moveSpeed = 3f;
 	public float pauseDuration = 2f;
 
@@ -69,17 +70,22 @@ public class Child : MonoBehaviour
 	private void StartWandering()
 	{
 		isMoving = true;
+		float randomAngle;
+		Vector3 randomDirection;
 
-		// Set the target position 10 units away in a random direction
-		float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-		Vector3 randomDirection = new Vector3(Mathf.Cos(randomAngle), 0, Mathf.Sin(randomAngle)).normalized;
-		targetPosition = transform.position + randomDirection * moveDistance;
+		do
+		{
+			// Set the target position 10 units away in a random direction
+			randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+			randomDirection = new Vector3(Mathf.Cos(randomAngle), 0, Mathf.Sin(randomAngle)).normalized;
+			targetPosition = transform.position + randomDirection * moveDistance;
+		} while(willClipPlayer()); //ABSTRACTION
 
 		// Check if the new targetPosition is beyond the max distance from origin
 		if(Vector3.Distance(targetPosition, Vector3.zero) > maxDistanceFromOrigin)
 		{
 			Vector3 towardOrigin = new Vector3(-transform.position.x, 0, -transform.position.z);
-			targetPosition = transform.position + towardOrigin.normalized * moveDistance;
+			targetPosition = transform.position + towardOrigin.normalized * (moveDistance - minDistanceFromOrigin);
 			if(transform.childCount == 0)
 			{
 				needsBalloon = true;
@@ -87,6 +93,27 @@ public class Child : MonoBehaviour
 		}
 
 		//TODO: prevent children from walking too close to or through player
+	}
+
+	// ENCAPSULATION
+	private bool willClipPlayer()
+	{
+		if(Vector3.Distance(transform.position, Vector3.zero) <= minDistanceFromOrigin)
+		{
+			Debug.Log("child got too close!");
+			return false; //already too close, get away
+		}
+
+		//calcs line between curpos and destination
+		//calcs nearest point on line to player
+		//returns if nearest point is too close
+		Vector3 deltaToDest = targetPosition - transform.position;
+		Vector3 deltaToPlayer = Vector3.zero - transform.position;
+		float projection = Vector3.Dot(deltaToPlayer, deltaToDest) / Vector3.Dot(deltaToDest, deltaToDest);
+		projection = Mathf.Clamp01(projection);
+		Vector3 nearestToPlayer = transform.position + projection * deltaToDest;
+		return Vector3.Distance(nearestToPlayer, Vector3.zero) <= minDistanceFromOrigin;
+		//return Vector3.Distance(targetPosition, Vector3.zero) <= minDistanceFromOrigin;
 	}
 
 	// ENCAPSULATION
