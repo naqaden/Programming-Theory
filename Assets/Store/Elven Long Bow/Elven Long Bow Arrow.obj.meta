@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 432dd2b7c2581c744a40ca43b1307c17
+AssetOrigin:
+  serializedVersion: 1
+  productId: 17728
+  packageName: Elven Long Bow
+  packageVersion: 1
+  assetPath: Assets/Elven Long Bow/Elven Long Bow Arrow.obj
+  uploadId: 19780
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
@@ -129,10 +136,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 17728
-  packageName: Elven Long Bow
-  packageVersion: 1
-  assetPath: Assets/Elven Long Bow/Elven Long Bow Arrow.obj
-  uploadId: 19780

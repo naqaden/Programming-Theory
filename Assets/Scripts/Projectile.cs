@@ -15,16 +15,15 @@ public class Projectile : MonoBehaviour
 	private float nockTime = 0;
 	private float nockTimeTotal = 1;
 	private float nockSpeed; //calc'd in Start() with delta nockPosStart over nockTimeTotal secs
-	private Vector3 nockPosStart = new Vector3(0.002f,0,0); //local
-	private Quaternion nockRotStart = Quaternion.Euler(0,0,-90); //local
-	private Vector3 nockPosEnd = Vector3.zero; //local
+	private Quaternion nockRotStart = Quaternion.Euler(0,-85,0); //local
+	private Vector3 nockPosStart = new Vector3(0.002f,0,-0.0004f); //local
+	private Vector3 nockPosEnd = new Vector3(0.000f,0,-0.0002f); //local
 
 	private bool isDrawing = false;
 	private float drawTime = 0;
 	private float drawTimeMax = 2;
 	private float drawSpeed; //calc'd in Start() with delta drawPosStart over drawTimeTotal secs
-	private Vector3 drawPosStart = Vector3.zero;  //local
-	private Vector3 drawPosEnd = new Vector3(0.001f,0,0); //local
+	private Vector3 drawPosEnd = new Vector3(0.001f,0,-0.0003f); //local
 
 	private bool isShot = false;
 	private float airTime = 0;
@@ -51,13 +50,11 @@ public class Projectile : MonoBehaviour
 			if(nockTime < nockTimeTotal)
 			{
 				transform.localPosition = Vector3.MoveTowards(transform.localPosition, nockPosEnd, nockSpeed * Time.deltaTime);
-//Debug.Log("still nocking: " + nockTime + " of 1.0, " + transform.localPosition.x.ToString("F6"));
 			}
 			else
 			{
 				isNocking = false; //so this only happens once
 				transform.localPosition = nockPosEnd;
-//Debug.Log("done nocking: " + nockTime + " of 1.0, " + transform.localPosition.x.ToString("F6"));
 			}
 		}
 		else if(isDrawing)
@@ -82,7 +79,7 @@ public class Projectile : MonoBehaviour
 
 			if(!isGrounded && rb.velocity != Vector3.zero) //velocity check silences LookRotation()'s unsolicited debug spam
 			{
-				transform.rotation = Quaternion.LookRotation(rb.velocity) * Quaternion.Euler(-90, 0, 0);
+				transform.rotation = Quaternion.LookRotation(rb.velocity);
 			}
 		}
 	}
@@ -114,11 +111,12 @@ public class Projectile : MonoBehaviour
 	{
 		isDrawing = false;
 		isShot = true;
-		float force = 50f * Math.Min(drawTime, drawTimeMax);
 		transform.SetParent(null); //detach
-		// Elven Long Bow arrow's "forward" is -y (down)
+		transform.position = Camera.main.transform.position + Camera.main.transform.forward;
 		rb.isKinematic = false;
-		rb.AddForce(-transform.up * force, ForceMode.Impulse);
+		float force = 30f * Math.Min(drawTime, drawTimeMax);
+		Vector3 trajectory = Camera.main.transform.forward;
+		rb.AddForce(trajectory * force, ForceMode.Impulse);
 	}
 
 	private void OnTriggerEnter(Collider other)
