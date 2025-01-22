@@ -10,6 +10,7 @@ public class ProjectileHoly : Projectile //INHERITANCE
 {
 	protected override int drawCost => 2; //POLYMORPHISM
 	protected override float drawTimeMax => 1; //POLYMORPHISM
+	protected override float speed => 60; //POLYMORPHISM
 
 	private void Awake()
 	{

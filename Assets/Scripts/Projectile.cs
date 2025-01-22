@@ -28,6 +28,7 @@ public class Projectile:MonoBehaviour
 	private Vector3 drawPosEnd = new Vector3(0.001f,0,-0.0003f); //local
 
 	private bool isShot = false;
+	protected virtual float speed => 30;
 	private float airTime = 0;
 	private float airTimeMax = 15;
 	private bool isGrounded = false;
@@ -129,7 +130,7 @@ public class Projectile:MonoBehaviour
 		transform.SetParent(null); //detach
 		transform.position = Camera.main.transform.position + Camera.main.transform.forward;
 		rb.useGravity = true;
-		float force = 30f * Math.Min(drawTime, drawTimeMax);
+		float force = Math.Min(drawTime, drawTimeMax) * speed;
 		Vector3 trajectory = Camera.main.transform.forward;
 		rb.AddForce(trajectory * force, ForceMode.Impulse);
 	}

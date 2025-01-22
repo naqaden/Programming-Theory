@@ -13,8 +13,8 @@ public class Child : MonoBehaviour
 	public GameObject balloon;
 	public GameObject balloonRare;
 	private Quaternion balloonRareRot = Quaternion.Euler(-90,0,0);
-	private float rareBalloonChance = 1.2f;
-	private float loseBalloonChance = 1.2f;
+	private float rareBalloonChance = 0.2f;
+	private float loseBalloonChance = 0.2f;
 
 	private float moveDistance = 10f;
 	private float maxDistanceFromOrigin = 20f;
