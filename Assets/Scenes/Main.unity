@@ -589,6 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 5939273892723819287, guid: a0732d39183ee214eb0b22480695bee4, type: 3}
+  projectileHoly: {fileID: 1503182039650231796, guid: f3f510de7c4d4b440a0f5b92c80875b4, type: 3}
   mouseSensitivity: 500
 --- !u!1 &705507993
 GameObject:

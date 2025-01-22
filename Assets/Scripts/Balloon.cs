@@ -12,7 +12,7 @@ public class Balloon : MonoBehaviour
 	private Score score;
 	private AudioSource audioSource;
 
-	private int scoreValue = 3;
+	protected virtual int scoreValue => 3;
 	private float timeLost = 0;
 	private bool isLost = false;
 	private float moveSpeed = 3f;
@@ -25,7 +25,7 @@ public class Balloon : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	protected virtual void Update()
 	{
 		if(isLost)
 		{
@@ -56,7 +56,7 @@ public class Balloon : MonoBehaviour
 		}
 	}
 
-	public void GetLost()
+	public void Release()
 	{
 		transform.SetParent(null);
 		isLost = true;

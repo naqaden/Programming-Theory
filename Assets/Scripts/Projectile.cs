@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,22 +7,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Projectile : MonoBehaviour
+public class Projectile:MonoBehaviour
 {
 	// ENCAPSULATION
-	private Rigidbody rb;
+	protected Rigidbody rb;
 
-	private bool isNocking = true;
+	protected bool isNocking = true;
 	private float nockTime = 0;
 	private float nockTimeTotal = 1;
 	private float nockSpeed; //calc'd in Start() with delta nockPosStart over nockTimeTotal secs
 	private Quaternion nockRotStart = Quaternion.Euler(0,-85,0); //local
 	private Vector3 nockPosStart = new Vector3(0.002f,0,-0.0004f); //local
-	private Vector3 nockPosEnd = new Vector3(0.000f,0,-0.0002f); //local
+	protected Vector3 nockPosEnd = new Vector3(0.000f,0,-0.0002f); //local
 
 	private bool isDrawing = false;
+	protected virtual int drawCost => 1;
 	private float drawTime = 0;
-	private float drawTimeMax = 2;
+	protected virtual float drawTimeMax => 2;
 	private float drawSpeed; //calc'd in Start() with delta drawPosStart over drawTimeTotal secs
 	private Vector3 drawPosEnd = new Vector3(0.001f,0,-0.0003f); //local
 
@@ -37,12 +39,15 @@ public class Projectile : MonoBehaviour
 		nockSpeed = nockPosStart.magnitude / nockTimeTotal;
 		drawSpeed = drawPosEnd.magnitude / drawTimeMax;
 
-		transform.localPosition = nockPosStart;
+		if(isNocking) //excludes ProjectileHoly since it starts nocked
+		{
+			transform.localPosition = nockPosStart;
+		}
 		transform.localRotation = nockRotStart;
 	}
 
 	// Update is called once per frame
-	void Update()
+	protected void Update()
 	{
 		if(isNocking)
 		{
@@ -96,23 +101,34 @@ public class Projectile : MonoBehaviour
 		return isDrawing;
 	}
 
+	// ENCAPSULATION
+	public int getDrawCost()
+	{
+		return drawCost;
+	}
+
+	// ENCAPSULATION
+	public Vector3 getNockPosEnd()
+	{
+		return nockPosEnd;
+	}
+
 	public void drawProjectile()
 	{
 		if(isNocking == false)
 		{
 			isDrawing = true;
 			drawTime = 0;
-			//slowly move back
 		}
 	}
 
-	public void shootProjectile()
+	public virtual void shootProjectile()
 	{
 		isDrawing = false;
 		isShot = true;
 		transform.SetParent(null); //detach
 		transform.position = Camera.main.transform.position + Camera.main.transform.forward;
-		rb.isKinematic = false;
+		rb.useGravity = true;
 		float force = 30f * Math.Min(drawTime, drawTimeMax);
 		Vector3 trajectory = Camera.main.transform.forward;
 		rb.AddForce(trajectory * force, ForceMode.Impulse);
@@ -122,7 +138,9 @@ public class Projectile : MonoBehaviour
 	{
 		if(other.CompareTag("Terrain"))
 		{
-			rb.isKinematic = true;
+			rb.useGravity = false;
+			rb.velocity = Vector3.zero;
+			rb.angularVelocity = Vector3.zero;
 			isGrounded = true;
 		}
 	}

@@ -9,19 +9,23 @@ public class Child : MonoBehaviour
 	// ENCAPSULATION
 	private AudioSource audioHappy;
 	private AudioSource audioSad;
+
 	public GameObject balloon;
-	public float loseChance = 0.2f;
+	public GameObject balloonRare;
+	private Quaternion balloonRareRot = Quaternion.Euler(-90,0,0);
+	private float rareBalloonChance = 1.2f;
+	private float loseBalloonChance = 1.2f;
 
 	private float moveDistance = 10f;
 	private float maxDistanceFromOrigin = 20f;
 	private float minDistanceFromOrigin = 2f;
-	public float moveSpeed = 3f;
-	public float pauseDuration = 2f;
+	private float moveSpeed = 3f;
+	private float pauseDuration = 2f;
 
 	private Vector3 targetPosition;
 	private float timeSinceLastMove = 0f;
 	private bool isMoving = false;
-	private bool needsBalloon = false;
+	private bool needsBalloon = true;
 
 	// Start is called before the first frame update
 	void Start()
@@ -50,7 +54,7 @@ public class Child : MonoBehaviour
 				{
 					AcquireBalloon(); // ABSTRACTION
 				}
-				else if(transform.childCount > 0 && Random.value < loseChance)
+				else if(transform.childCount > 0 && Random.value <= loseBalloonChance)
 				{
 					LoseBalloon(); // ABSTRACTION
 				}
@@ -123,7 +127,14 @@ public class Child : MonoBehaviour
 
 		if(transform.childCount == 0)
 		{
-			Instantiate(balloon, transform.position + Vector3.up * 2, Quaternion.identity, transform);
+			if(Random.value <= rareBalloonChance)
+			{
+				Instantiate(balloonRare, transform.position + Vector3.up * 2, balloonRareRot, transform);
+			}
+			else
+			{
+				Instantiate(balloon, transform.position + Vector3.up * 2, Quaternion.identity, transform);
+			}
 			audioHappy.Play();
 		}
 		else
@@ -139,7 +150,7 @@ public class Child : MonoBehaviour
 		{
 			Transform heldBalloon = transform.GetChild(0);
 			Balloon heldBalloonScript = heldBalloon.GetComponent<Balloon>();
-			heldBalloonScript.GetLost();
+			heldBalloonScript.Release();
 			audioSad.Play();
 		}
 		else

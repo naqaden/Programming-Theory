@@ -11,7 +11,9 @@ public class Player : MonoBehaviour
 	private Transform playerBody;
 	private GameObject haloBow;
 	public GameObject projectile;
+	public GameObject projectileHoly;
 	private Projectile projectileScript;
+	private bool isHoly = false;
 
 	public float mouseSensitivity = 500f;
 	private float xRotation = 0f;
@@ -63,13 +65,22 @@ public class Player : MonoBehaviour
 		{
 			projectileScript.drawProjectile();
 		}
-		else if(Input.GetMouseButtonUp(0) && projectileScript.getDrawing())
+		else if(Input.GetMouseButton(1) && !projectileScript.getNocking() && !projectileScript.getDrawing())
 		{
-			score.updateScore(-1); //costs 1 point to shoot
+			isHoly = true;
+			GameObject newProjectile = Instantiate(projectileHoly, haloBow.transform);
+			Destroy(projectileScript.gameObject);
+			projectileScript = newProjectile.GetComponent<Projectile>(); //INHERITANCE
+			projectileScript.drawProjectile();
+		}
+		else if(((Input.GetMouseButtonUp(0) && !isHoly) || (Input.GetMouseButtonUp(1) && isHoly)) && projectileScript.getDrawing())
+		{
+			score.updateScore(-projectileScript.getDrawCost()); //costs to shoot
 			projectileScript.shootProjectile(); //ends charging
 			//let projectile orient itself. it's a headache setting pos and rot from here
 			GameObject newProjectile = Instantiate(projectile, haloBow.transform);
 			projectileScript = newProjectile.GetComponent<Projectile>();
+			isHoly = false;
 		}
 	}
 }

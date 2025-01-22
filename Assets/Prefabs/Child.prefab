@@ -125,7 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balloon: {fileID: 6894881067896764528, guid: 4f25754384a83bc42811f501ab54e50d, type: 3}
-  loseChance: 0.2
+  balloonRare: {fileID: 1048482637528857847, guid: f55ca18cc4d1cb24daf90b3076ac89ea, type: 3}
+  rareBalloonChance: 0.2
+  loseBalloonChance: 0.2
   moveSpeed: 3
   pauseDuration: 2
 --- !u!82 &-1041249310744845593
