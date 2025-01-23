@@ -6,21 +6,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class ProjectileHoly : Projectile //INHERITANCE
+public class ProjectileHoly : Projectile // INHERITANCE
 {
-	protected override int drawCost => 2; //POLYMORPHISM
-	protected override float drawTimeMax => 1; //POLYMORPHISM
-	protected override float speed => 60; //POLYMORPHISM
-
-	private void Awake()
+	// POLYMORPHISM
+	protected override bool isNocking => false;
+	protected override int drawCost => 2;
+	protected override float drawTimeMax => 0.5f;
+	protected override float speed => 60;
+	
+	// POLYMORPHISM
+	protected override void Awake()
 	{
-		isNocking = false;
+		base.Awake(); // INHERITANCE
 		transform.localPosition = nockPosEnd;
 	}
 
-	public override void shootProjectile() //POLYMORPHISM
+	// POLYMORPHISM
+	public override void shootProjectile()
 	{
-		base.shootProjectile(); //INHERITANCE
+		base.shootProjectile(); // INHERITANCE
 		rb.useGravity = false;
 	}
 }

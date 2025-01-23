@@ -5,8 +5,8 @@ using UnityEngine;
 public class Wind : MonoBehaviour
 {
 	// ENCAPSULATION
-	public float scrollSpeedX = 0.0f;
-	public float scrollSpeedY = 0.0f;
+	private float scrollSpeedX = 0.0f;
+	private float scrollSpeedY = 0.0f;
 	#pragma warning disable CS0108 // Member hides deprecated inherited member;
 	private Renderer renderer;
 	private Vector2 offset = Vector2.zero;

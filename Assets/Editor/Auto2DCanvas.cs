@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -31,8 +32,9 @@ public class CanvasFrame2DMode
 				if(isGOCanvas) //only frame if we selected Canvas, not its children
 				{
 					RectTransform rectTransform = canvas.GetComponent<RectTransform>();
-					Vector3 sizeDelta = (Vector3)rectTransform.sizeDelta;
-					Bounds bounds = new Bounds(rectTransform.position, sizeDelta/2);
+					Vector3 sizeDelta = (Vector3)(rectTransform.sizeDelta * rectTransform.localScale);
+					float aspectRatio = sizeDelta.x / sizeDelta.y;
+					Bounds bounds = new Bounds(rectTransform.position, sizeDelta / aspectRatio);
 					SceneView.lastActiveSceneView.Frame(bounds, true);
 				}
 			}
@@ -42,5 +44,4 @@ public class CanvasFrame2DMode
 			}
 		}
 	}
-
 }

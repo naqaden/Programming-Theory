@@ -126,10 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balloon: {fileID: 6894881067896764528, guid: 4f25754384a83bc42811f501ab54e50d, type: 3}
   balloonRare: {fileID: 1048482637528857847, guid: f55ca18cc4d1cb24daf90b3076ac89ea, type: 3}
-  rareBalloonChance: 0.2
-  loseBalloonChance: 0.2
-  moveSpeed: 3
-  pauseDuration: 2
 --- !u!82 &-1041249310744845593
 AudioSource:
   m_ObjectHideFlags: 0
@@ -143,7 +139,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: df2aec1e715a1f34fbf319355cbe483a, type: 3}
   m_Resource: {fileID: 8300000, guid: df2aec1e715a1f34fbf319355cbe483a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -246,12 +242,12 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0

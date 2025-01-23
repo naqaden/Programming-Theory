@@ -62,10 +62,10 @@ public class Balloon : MonoBehaviour
 		isLost = true;
 	}
 
-	//ENCAPSULATION
-	private void Pop(int delta)
+	// ENCAPSULATION
+	private void Pop(int scoreDelta)
 	{
-		score.updateScore(delta);
+		score.updateScore(scoreDelta);
 		audioSource.Play();
 		GetComponent<Renderer>().enabled = false; //make balloon invisible while sound plays
 		Destroy(gameObject, audioSource.clip.length); //delay destruction until sound is complete

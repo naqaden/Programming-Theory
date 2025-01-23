@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 	private Projectile projectileScript;
 	private bool isHoly = false;
 
-	public float mouseSensitivity = 500f;
+	public float mouseSensitivity = 500f; //TODO add pause screen to adjust this
 	private float xRotation = 0f;
 
 	// Start is called before the first frame update
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 		projectileScript = haloBow.GetComponentInChildren<Projectile>();
 
 		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
+		//Cursor.visible = false;
 	}
 
 	// Update is called once per frame
@@ -61,11 +61,13 @@ public class Player : MonoBehaviour
 
 	private void handleBow()
 	{
-		if(Input.GetMouseButton(0) && !projectileScript.getNocking() && !projectileScript.getDrawing())
+		if(Input.GetMouseButton(0) && !projectileScript.getNocking() && !projectileScript.getDrawing()
+			&& score.getScore() >= projectileScript.getDrawCost())
 		{
 			projectileScript.drawProjectile();
 		}
-		else if(Input.GetMouseButton(1) && !projectileScript.getNocking() && !projectileScript.getDrawing())
+		else if(Input.GetMouseButton(1) && !projectileScript.getNocking() && !projectileScript.getDrawing()
+			 && score.getScore() >= projectileScript.getDrawCost() + 1) //TODO get holy cost
 		{
 			isHoly = true;
 			GameObject newProjectile = Instantiate(projectileHoly, haloBow.transform);

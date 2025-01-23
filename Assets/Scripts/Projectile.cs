@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UIElements;
 
 public class Projectile:MonoBehaviour
@@ -12,7 +14,7 @@ public class Projectile:MonoBehaviour
 	// ENCAPSULATION
 	protected Rigidbody rb;
 
-	protected bool isNocking = true;
+	protected virtual bool isNocking { get; set; } = true;
 	private float nockTime = 0;
 	private float nockTimeTotal = 1;
 	private float nockSpeed; //calc'd in Start() with delta nockPosStart over nockTimeTotal secs
@@ -20,22 +22,23 @@ public class Projectile:MonoBehaviour
 	private Vector3 nockPosStart = new Vector3(0.002f,0,-0.0004f); //local
 	protected Vector3 nockPosEnd = new Vector3(0.000f,0,-0.0002f); //local
 
+	private Score score;
 	private bool isDrawing = false;
 	protected virtual int drawCost => 1;
 	private float drawTime = 0;
-	protected virtual float drawTimeMax => 2;
+	protected virtual float drawTimeMax => 1;
 	private float drawSpeed; //calc'd in Start() with delta drawPosStart over drawTimeTotal secs
 	private Vector3 drawPosEnd = new Vector3(0.001f,0,-0.0003f); //local
 
 	private bool isShot = false;
-	protected virtual float speed => 30;
+	protected virtual float speed => 50;
 	private float airTime = 0;
 	private float airTimeMax = 15;
 	private bool isGrounded = false;
-
-	// Start is called before the first frame update
-	void Start()
+	
+	protected virtual void Awake()
 	{
+		score = EventSystem.current.GetComponent<Score>();
 		rb = gameObject.GetComponent<Rigidbody>();
 		nockSpeed = nockPosStart.magnitude / nockTimeTotal;
 		drawSpeed = drawPosEnd.magnitude / drawTimeMax;
@@ -116,7 +119,7 @@ public class Projectile:MonoBehaviour
 
 	public void drawProjectile()
 	{
-		if(isNocking == false)
+		if(isNocking == false && score.getScore() >= drawCost)
 		{
 			isDrawing = true;
 			drawTime = 0;
