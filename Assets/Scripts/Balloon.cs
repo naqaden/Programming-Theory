@@ -8,7 +8,6 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class Balloon : MonoBehaviour
 {
-	//ENCAPSULATION
 	private Score score;
 	private AudioSource audioSource;
 
@@ -39,7 +38,7 @@ public class Balloon : MonoBehaviour
 	{
 		if(other.CompareTag("Sky"))
 		{
-			Pop(-scoreValue); // ABSTRACTION
+			Pop(-scoreValue);
 		}
 		if(other.CompareTag("Projectile") && other.transform.parent == null) //exclude children who wander into player
 		{
@@ -47,11 +46,11 @@ public class Balloon : MonoBehaviour
 			{
 				int penalty = (int)Math.Floor(timeLost/2f);
 				penalty = Math.Min(scoreValue - 1, penalty);
-				Pop(scoreValue - penalty); // ABSTRACTION
+				Pop(scoreValue - penalty);
 			}
 			else //child was still holding. maximum penalty
 			{
-				Pop(-scoreValue - 1); // ABSTRACTION
+				Pop(-scoreValue - 1);
 			}
 		}
 	}
@@ -62,7 +61,7 @@ public class Balloon : MonoBehaviour
 		isLost = true;
 	}
 
-	// ENCAPSULATION
+	// ABSTRACTION
 	private void Pop(int scoreDelta)
 	{
 		score.updateScore(scoreDelta);

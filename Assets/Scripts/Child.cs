@@ -6,7 +6,6 @@ using static UnityEngine.UI.Image;
 
 public class Child : MonoBehaviour
 {
-	// ENCAPSULATION
 	private AudioSource audioHappy;
 	private AudioSource audioSad;
 
@@ -52,11 +51,11 @@ public class Child : MonoBehaviour
 
 				if(needsBalloon)
 				{
-					AcquireBalloon(); // ABSTRACTION
+					AcquireBalloon();
 				}
 				else if(transform.childCount > 0 && Random.value <= loseBalloonChance)
 				{
-					LoseBalloon(); // ABSTRACTION
+					LoseBalloon();
 				}
 			}
 		}
@@ -65,12 +64,12 @@ public class Child : MonoBehaviour
 			timeSinceLastMove += Time.deltaTime;
 			if(timeSinceLastMove >= pauseDuration)
 			{
-				StartWandering(); // ABSTRACTION
+				StartWandering();
 			}
 		}
 	}
 
-	// ENCAPSULATION
+	// ABSTRACTION
 	private void StartWandering()
 	{
 		isMoving = true;
@@ -96,10 +95,10 @@ public class Child : MonoBehaviour
 			}
 		}
 
-		//TODO: prevent children from walking too close to or through player
+		//TODO: overhaul to prevent children from walking too close to or through player
 	}
 
-	// ENCAPSULATION
+	// ABSTRACTION
 	private bool willClipPlayer()
 	{
 		if(Vector3.Distance(transform.position, Vector3.zero) <= minDistanceFromOrigin)
@@ -120,7 +119,7 @@ public class Child : MonoBehaviour
 		//return Vector3.Distance(targetPosition, Vector3.zero) <= minDistanceFromOrigin;
 	}
 
-	// ENCAPSULATION
+	// ABSTRACTION
 	private void AcquireBalloon()
 	{
 		needsBalloon = false;
@@ -143,7 +142,7 @@ public class Child : MonoBehaviour
 		}
 	}
 
-	// ENCAPSULATION
+	// ABSTRACTION
 	private void LoseBalloon()
 	{
 		if(transform.childCount > 0)

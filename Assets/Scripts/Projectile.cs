@@ -11,7 +11,6 @@ using UnityEngine.UIElements;
 
 public class Projectile:MonoBehaviour
 {
-	// ENCAPSULATION
 	protected Rigidbody rb;
 
 	protected virtual bool isNocking { get; set; } = true;

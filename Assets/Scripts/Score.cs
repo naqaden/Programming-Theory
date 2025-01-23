@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-	//ENCAPSULATION
 	private TMP_Text scoreText;
     private int score = 12;
 	private int scoreMin = 0;
@@ -20,7 +19,6 @@ public class Score : MonoBehaviour
         scoreText = GameObject.Find("Score").GetComponent<TMP_Text>();
 	}
 
-    //ENCAPSULATION
     public void updateScore(int delta)
     {
 		score += delta;
@@ -39,7 +37,8 @@ public class Score : MonoBehaviour
 		}
 	}
 
-    public int getScore()
+	// ENCAPSULATION
+	public int getScore()
     {
         return score;
     }

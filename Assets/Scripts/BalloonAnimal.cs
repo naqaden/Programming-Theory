@@ -8,8 +8,7 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class BalloonAnimal : Balloon // INHERITANCE
 {
-	// POLYMORPHISM
-	protected override int scoreValue => 6;
+	protected override int scoreValue => 6; // POLYMORPHISM
 
 	// Update is called once per frame
 	protected override void Update() // POLYMORPHISM

@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
-	// ENCAPSULATION
 	private Score score;
 
 	private Transform playerBody;
@@ -46,6 +45,7 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	// ABSTRACTION
 	private void handleCamera()
 	{
 		// Rotate the player body horizontally
@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
 		Camera.main.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 	}
 
+	// ABSTRACTION
 	private void handleBow()
 	{
 		if(Input.GetMouseButton(0) && !projectileScript.getNocking() && !projectileScript.getDrawing()
